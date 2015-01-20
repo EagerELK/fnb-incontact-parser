@@ -1,0 +1,15 @@
+filter {
+  grok {
+    patterns_dir => "./patterns"
+    match => [
+      "message",
+      "FNB\s?:-?\) R%{NUMBER:amount:float} %{DATA:action} from %{DATA:from_type}\.\.%{FNB_ACC_NUM:account_number} %{GREEDYDATA:method}\. Avail R%{NUMBER:balance:float}\.?( Ref.%{DATA:reference}\.?)? %{FNB_DATE_TIME:datetime}"
+      #"message",
+      #"FNB :-?\) R%{NUMBER:amount:float} %{DATA:action} from %{WORD:from_type} a/c..%{FNB_ACC_NUM:account_number} to %{DATA:to_description}..%{FNB_ACC_NUM:to_account} @ %{DATA:method}\.?( Avail R%{NUMBER:balance:float}\.?)?( Ref.%{DATA:reference}\.?)? %{FNB_DATE_TIME:datetime}",
+      #"message",
+      #"FNB :-?\) R%{NUMBER:amount:float} %{DATA:action} (@ %{DATA:reference} )?from %{WORD:from_type} a/c..%{FNB_ACC_NUM:account_number} ((using|@) )?%{DATA:method}\.?( Avail R%{NUMBER:balance:float}\.?)?( Ref.%{DATA:reference}\.?)? %{FNB_DATE_TIME:datetime}",
+      #"message",
+      #"FNB :-?\) R%{NUMBER:amount:float} %{DATA:action} to %{WORD:to_type} a/c..%{FNB_ACC_NUM:account_number} @ %{DATA:method}\.?( Ref.%{DATA:reference}\.?)? %{FNB_DATE_TIME:datetime}"
+    ]
+  }
+}

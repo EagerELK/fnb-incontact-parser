@@ -1,0 +1,13 @@
+filter {
+  if "_grokparsefailure" not in [tags] {
+    mutate {
+      split => [ "action", " @ " ]
+    }
+    mutate {
+      add_field => { "vendor" => "%{[action][1]}" }
+    }
+    mutate {
+      replace => { "action" => "%{[action][0]}" }
+    }
+  }
+}

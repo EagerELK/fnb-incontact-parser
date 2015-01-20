@@ -1,0 +1,9 @@
+output {
+  if "_grokparsefailure" not in [tags] {
+    http {
+      http_method => "post"
+      url => "http://localhost:9292/transactions"
+      headers => ["Content-Type", "application/json"]
+    }
+  }
+}

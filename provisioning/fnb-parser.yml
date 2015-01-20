@@ -1,0 +1,43 @@
+---
+- hosts: all
+  sudo: true
+  vars:
+    logstash_conf_files:
+      - 01-imap-input.conf
+      - 50-fnb-grok-filter.conf
+      - 51-cleanup-filter.conf
+      - 59-fnb-date-filter.conf
+      - 92-rest-output.conf
+    elasticsearch_network_host: 0.0.0.0
+  vars_prompt:
+    - name: "email_host"
+      prompt: "Email hostname"
+      private: yes
+    - name: "email_username"
+      prompt: "Email username"
+      private: yes
+    - name: "email_password"
+      prompt: "Email password"
+      private: yes
+    - name: "email_folder"
+      prompt: "Email folder"
+      private: yes
+  roles:
+    - logstash
+  tasks:
+  - name: Copy the FNB patterns
+    copy: src=files/fnb dest=/opt/logstash/patterns/fnb
+    notify: restart logstash
+  - name: Copy the modified imap input
+    copy: src=files/imap.rb dest=/opt/logstash/lib/logstash/inputs/imap.rb owner=logstash group=logstash
+    notify: restart logstash
+  - name: Install ruby dependencies
+    apt: name={{ item }} state=latest update_cache=yes
+    with_items:
+      - ruby
+      - libsqlite3-dev
+      - build-tools
+  - name: Install bundler
+    gem: name=bundler state=latest
+  - name: Install the gems
+    command: bundle install chdir=/vagrant

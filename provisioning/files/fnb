@@ -1,0 +1,5 @@
+FNB_TIME %{HOUR}:%{MINUTE}
+FNB_DATE %{MONTHDAY}(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\b
+FNB_DATE_TIME %{FNB_DATE} %{FNB_TIME}
+FNB_ACC_NUM [0-9]{6}
+FNB_ACTION %{DATA} (to|from)

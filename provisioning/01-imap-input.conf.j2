@@ -1,0 +1,10 @@
+input {
+  imap {
+    host => "{{ email_host }}"
+    user => "{{ email_username }}"
+    password => "{{ email_password }}"
+    secure => true
+    fetch_count => 15
+    folder => "{{ email_folder }}"
+  }
+}
