@@ -34,10 +34,10 @@
   - name: Install ruby dependencies
     apt: name={{ item }} state=latest update_cache=yes
     with_items:
-      - ruby
+      - ruby1.9.3
       - libsqlite3-dev
-      - build-tools
+      - build-essential
   - name: Install bundler
-    gem: name=bundler state=latest
+    gem: name=bundler state=latest user_install=no
   - name: Install the gems
     command: bundle install chdir=/vagrant
