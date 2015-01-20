@@ -1,0 +1,20 @@
+---
+- include: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+
+- include: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- name: Create Logstash configuration files.
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/logstash/conf.d/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items: logstash_conf_files
+  tags: [ config ]
+  notify: restart logstash
+
+- name: Ensure Logstash is started and enabled on boot.
+  service: name=logstash state=started enabled=yes
